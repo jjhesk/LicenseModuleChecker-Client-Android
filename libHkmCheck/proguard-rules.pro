@@ -21,15 +21,18 @@
 
 -dontwarn okio.**
 
--dontwarn com.squareup.okhttp.*
+-dontwarn com.squareup.okhttp.**
 
 -dontwarn retrofit.appengine.UrlFetchClient
 
 -keepattributes Annotation
 
+-keep public class *
+
 -keep class retrofit.** { *; }
 
 -keepclasseswithmembers class * {
+	@retrofit.http.* <methods>; 
+}
 
-@retrofit.http.* <methods>; }
 -keepattributes Signature

@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 import com.asynhkm.productchecker.Checker.CheckerCB;
 import com.asynhkm.productchecker.Checker.HKMCheckerPlugable;
