@@ -3,6 +3,7 @@ package com.asynhkm.licensechecker;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,12 +12,52 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.asynhkm.productchecker.Checker.CheckerCB;
+import com.asynhkm.productchecker.Checker.HKMCheckerPlugable;
+import com.asynhkm.productchecker.Util.Tool;
+import com.asynhkm.productchecker.schema.DataProductVersion;
+import com.asynhkm.productchecker.schema.ReturnResult;
+
 
 public class MainExample extends Activity {
+    private static HKMCheckerPlugable main;
+    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctx = getApplicationContext();
+
+
+        main = new HKMCheckerPlugable("54a36152417777b2152fe14b", getApplicationContext());
+        main.netStartCheck(new CheckerCB() {
+            @Override
+            public void success() {
+
+            }
+
+            @Override
+            public void success(DataProductVersion mDataProduct) {
+                Tool.trace(ctx, mDataProduct.toString());
+            }
+
+            @Override
+            public void fail() {
+
+            }
+
+            @Override
+            public void fail(ReturnResult mResult) {
+                Tool.trace(ctx, mResult.toString());
+            }
+
+            @Override
+            public void fail(DataProductVersion mDataProduct) {
+                Tool.trace(ctx, mDataProduct.toString());
+            }
+        });
+
+
         setContentView(R.layout.activity_main_example);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

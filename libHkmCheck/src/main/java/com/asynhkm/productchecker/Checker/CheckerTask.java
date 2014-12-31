@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.asynhkm.productchecker.RedemptionClaimManager;
 import com.asynhkm.productchecker.Util.Tool;
 import com.asynhkm.productchecker.schema.DataProductVersion;
 import com.asynhkm.productchecker.schema.ReturnResult;
@@ -18,19 +17,12 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * Created by Hesk on 30/12/2014.
@@ -143,7 +135,6 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
     protected DataProductVersion doInBackground(Void... c) {
         DataProductVersion h;
         try {
-
             RequestBody body = RequestBody.create(JSON, consolidate());
             Request request = new Request.Builder()
                     .url(request_url)

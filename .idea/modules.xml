@@ -3,8 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LicenseChecker.iml" filepath="$PROJECT_DIR$/LicenseChecker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LicenseModuleChecker-Client-Android.iml" filepath="$PROJECT_DIR$/LicenseModuleChecker-Client-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/productchecker/productchecker.iml" filepath="$PROJECT_DIR$/productchecker/productchecker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/productchecker/libHkmCheck.iml" filepath="$PROJECT_DIR$/productchecker/libHkmCheck.iml" />
     </modules>
   </component>
 </project>
