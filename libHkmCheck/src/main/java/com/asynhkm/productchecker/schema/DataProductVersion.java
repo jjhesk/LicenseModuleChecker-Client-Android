@@ -28,4 +28,11 @@ public class DataProductVersion {
     public boolean isError() {
         return rr != null;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(clientID).append(siteURL);
+        return sb.toString();
+    }
 }

@@ -28,11 +28,18 @@ import org.json.JSONObject;
  * Created by Hesk on 30/12/2014.
  */
 public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
+    public static final String TAG = "Redeem Class";
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private HttpParams httpParams;
     private Context c;
-    public static final String TAG = "Redeem Class";
     private OkHttpClient client = new OkHttpClient();
     private CheckerCB checker_cb;
+    private String
+            licenseKey = "",
+            productKey = "",
+            mac_id = "",
+            request_url = "";
+
 
     public CheckerTask(Context cctxx, CheckerCB cb) {
         httpParams = new BasicHttpParams();
@@ -48,15 +55,10 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
         return t;
     }
 
-
     private DataProductVersion return_result(String resultString) throws Exception {
         final GsonBuilder gsonb = new GsonBuilder();
-
-
         DataProductVersion mDataProductVersion = new DataProductVersion();
         ReturnResult rt;
-
-
         try {
             System.out.println("RESPONSE: " + resultString);
 
@@ -67,8 +69,6 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
                 ReturnResult result = gsonb.create().fromJson(resultString, ReturnResult.class);
                 mDataProductVersion.setRR(result);
             }
-
-
         } catch (JsonParseException e) {
             rt = new ReturnResult(e.getMessage());
             mDataProductVersion.setRR(rt);
@@ -79,19 +79,8 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
             rt = new ReturnResult(e.getMessage());
             mDataProductVersion.setRR(rt);
         }
-
         return mDataProductVersion;
-
     }
-
-
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-    private String
-            licenseKey = "",
-            productKey = "",
-            mac_id = "",
-            request_url = "";
 
     public CheckerTask setProductKey(String key) {
         productKey = key;
@@ -156,9 +145,9 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
         Log.d(TAG, "onPostExecute result == " + result.toString());
         super.onPostExecute(result);
         if (result.isError()) {
-            checker_cb.fail(result);
+            checker_cb.tr_fail(result);
         } else {
-            checker_cb.success(result);
+            checker_cb.tr_success(result);
         }
     }
 
