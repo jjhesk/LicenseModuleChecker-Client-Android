@@ -31,10 +31,10 @@ public class HKMCheckerPlugable {
             //check with the license from the customer
 
             final CheckerTask re = new CheckerTask(this.ctx, callback);
-            re.setLicenseKey(licenseKey)
-                    .setMac(mac_id)
-                    .setRequestUrl(param.devCheck())
-                    .execute();
+            re.setLicenseKey(licenseKey);
+            re.setMac(mac_id);
+            re.setRequestUrl(param.devCheck());
+            re.execute();
 
 
         } else {

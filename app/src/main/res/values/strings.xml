@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">LicenseChecker</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="message_check">check this license if this is working now!</string>
+    <string name="check_now">check</string>
     <string name="action_settings">Settings</string>
 
 </resources>

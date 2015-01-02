@@ -23,6 +23,8 @@ import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 
 /**
  * Created by Hesk on 30/12/2014.
@@ -132,10 +134,23 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
             Response response = client.newCall(request).execute();
             String res = response.body().string();
             h = return_result(res);
-        } catch (Exception e) {
+        } catch (NoClassDefFoundError e) {
+
+            h = new DataProductVersion();
+            h.setRR(new ReturnResult(e.getMessage()));
+
+        } catch (IOException e) {
+
             Log.d("work ERROR", e.getMessage());
             h = new DataProductVersion();
             h.setRR(new ReturnResult(e.getMessage()));
+
+        } catch (Exception e) {
+
+            Log.d("work ERROR", e.getMessage());
+            h = new DataProductVersion();
+            h.setRR(new ReturnResult(e.getMessage()));
+
         }
         return h;
     }

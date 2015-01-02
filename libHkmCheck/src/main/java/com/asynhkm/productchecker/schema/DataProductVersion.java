@@ -1,5 +1,7 @@
 package com.asynhkm.productchecker.schema;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Hesk on 30/12/2014.
  */
@@ -28,11 +30,11 @@ public class DataProductVersion {
     public boolean isError() {
         return rr != null;
     }
-
+/*
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(clientID).append(siteURL);
         return sb.toString();
-    }
+    }*/
 }
