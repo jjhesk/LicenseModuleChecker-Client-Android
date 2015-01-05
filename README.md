@@ -23,4 +23,4 @@ Example 1
                 plugable.netStartCheck(this);
                 checkingView.setText("Checking..");
 }
-            ```
+```
