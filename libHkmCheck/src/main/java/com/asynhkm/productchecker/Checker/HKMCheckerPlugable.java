@@ -20,6 +20,7 @@ public class HKMCheckerPlugable {
     public HKMCheckerPlugable(String productkey, Context ctx) {
         SP = ctx.getApplicationContext().getSharedPreferences("license_data", Context.MODE_PRIVATE);
         mac_id = Tool.get_mac_address(ctx);
+        this.productKey = productkey;
         this.ctx = ctx;
     }
 
@@ -27,24 +28,19 @@ public class HKMCheckerPlugable {
      * the net is just started now
      */
     public void netStartCheck(CheckerCB callback) {
+        final CheckerTask re = new CheckerTask(this.ctx, callback);
+
         if (licenseKey.isEmpty()) {
             //check with the license from the customer
-
-            final CheckerTask re = new CheckerTask(this.ctx, callback);
-            re.setLicenseKey(licenseKey);
-            re.setMac(mac_id);
-            re.setRequestUrl(param.devCheck());
-            re.execute();
-
-
-        } else {
-            //check and issue a new license or register
-
-
-            final CheckerTask re = new CheckerTask(this.ctx, callback);
-            re.setLicenseKey(licenseKey)
+            re.setProductKey(productKey)
                     .setMac(mac_id)
                     .setRequestUrl(param.devReg())
+                    .execute();
+        } else {
+            //check and issue a new license or register
+            re.setLicenseKey(licenseKey)
+                    .setMac(mac_id)
+                    .setRequestUrl(param.devCheck())
                     .execute();
             //DialogCustomRedemptionSingle
         }
