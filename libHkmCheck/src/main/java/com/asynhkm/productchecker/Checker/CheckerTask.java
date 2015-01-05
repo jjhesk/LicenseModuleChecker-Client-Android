@@ -1,13 +1,13 @@
 package com.asynhkm.productchecker.Checker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.asynhkm.productchecker.Util.Tool;
 import com.asynhkm.productchecker.schema.DataProductVersion;
 import com.asynhkm.productchecker.schema.ReturnResult;
-import com.asynhkm.productchecker.schema.requestRegister;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -41,14 +41,30 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
             productKey = "",
             mac_id = "",
             request_url = "";
+    private param.request_status status_req;
+    private SharedPreferences mSP;
 
+    public class requestRegister {
+        public String domain, product_key;
 
-    public CheckerTask(Context cctxx, CheckerCB cb) {
+        public requestRegister() {
+        }
+    }
+
+    public class requestCheck {
+        public String domain, key;
+
+        public requestCheck() {
+        }
+    }
+
+    public CheckerTask(Context cctxx, CheckerCB cb, SharedPreferences SP) {
         httpParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
+        HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
         HttpConnectionParams.setSoTimeout(httpParams, 5000);
         c = cctxx;
         checker_cb = cb;
+        mSP = SP;
     }
 
     public boolean isSuccess(String str) throws JSONException {
@@ -63,10 +79,10 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
         ReturnResult rt;
         try {
             System.out.println("RESPONSE: " + resultString);
-
-
             if (isSuccess(resultString)) {
-                mDataProductVersion = gsonb.create().fromJson(resultString, DataProductVersion.class);
+                final JSONObject Jr = new JSONObject(resultString);
+                JSONObject data = Jr.getJSONObject("license_detail");
+                mDataProductVersion = gsonb.create().fromJson(data.toString(), DataProductVersion.class);
             } else {
                 ReturnResult result = gsonb.create().fromJson(resultString, ReturnResult.class);
                 mDataProductVersion.setRR(result);
@@ -99,6 +115,10 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
         return this;
     }
 
+    public CheckerTask setStatusRequest(param.request_status e) {
+        status_req = e;
+        return this;
+    }
 
     public CheckerTask setRequestUrl(String url) {
         request_url = url;
@@ -108,16 +128,25 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
 
     protected String consolidate() {
         final GsonBuilder gsonb = new GsonBuilder();
-        requestRegister raw = new requestRegister();
-        if (productKey.isEmpty()) {
-            raw.domain = mac_id;
-            raw.product_key = licenseKey;
-        } else {
-            raw.domain = mac_id;
-            raw.product_key = productKey;
-        }
+        String request_body = "";
+
         Gson gson = gsonb.create();
-        final String request_body = gson.toJson(raw);
+        switch (status_req) {
+            case registration:
+                requestRegister mrequestRegister = new requestRegister();
+                mrequestRegister.domain = mac_id;
+                mrequestRegister.product_key = productKey;
+                request_body = gson.toJson(mrequestRegister);
+                break;
+            case check:
+                requestCheck mrequestCheck = new requestCheck();
+                mrequestCheck.domain = mac_id;
+                mrequestCheck.key = licenseKey;
+                request_body = gson.toJson(mrequestCheck);
+                break;
+        }
+
+
         return request_body;
     }
 
@@ -162,7 +191,11 @@ public class CheckerTask extends AsyncTask<Void, Void, DataProductVersion> {
         if (result.isError()) {
             checker_cb.tr_fail(result);
         } else {
-            checker_cb.tr_success(result);
+          /*  if (status_req == param.request_status.registration) {
+                Tool.trace(c, "new demo license is issued");
+            }*/
+            mSP.edit().putString(param.SAVE_ACH, result.getLicenseKey()).apply();
+            checker_cb.tr_success(result, status_req);
         }
     }
 

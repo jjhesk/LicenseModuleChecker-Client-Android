@@ -24,4 +24,11 @@ public class param {
     public static String proCheck() {
         return production_domain + request_check;
     }
+
+    public static final String SAVE_ACH = "license_key";
+    public static final String DATAGROUP = "license_data_acm";
+
+    public static enum request_status {
+        registration, check
+    }
 }

@@ -7,7 +7,7 @@ import com.asynhkm.productchecker.schema.DataProductVersion;
  */
 public interface CheckerCB {
 
-    void tr_success(DataProductVersion pv);
+    void tr_success(DataProductVersion pv, param.request_status sta);
 
     void tr_fail(DataProductVersion pv);
 }

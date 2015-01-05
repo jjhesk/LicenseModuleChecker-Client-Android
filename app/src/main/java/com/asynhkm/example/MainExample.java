@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.asynhkm.productchecker.Checker.CheckerCB;
 import com.asynhkm.productchecker.Checker.HKMCheckerPlugable;
+import com.asynhkm.productchecker.Checker.param;
 import com.asynhkm.productchecker.Util.Tool;
 import com.asynhkm.productchecker.schema.DataProductVersion;
 
@@ -77,22 +78,24 @@ public class MainExample extends Activity {
                 checkingView.setText("Checking..");
             }
 
-
             return false;
         }
 
         @Override
-        public void tr_success(DataProductVersion pv) {
-            Tool.trace(_act, pv.toString());
-            checkingView.setText("Done.." + pv.toString());
+        public void tr_success(DataProductVersion pv, param.request_status licen) {
+            Tool.trace(_act, pv.getExpiration());
+            checkingView.setText("Success.." + pv.getExpiration());
+            if(licen == param.request_status.registration){
+                Tool.trace(_act, "new demo license is issued");
+            }
             checking = false;
         }
 
         @Override
         public void tr_fail(DataProductVersion pv) {
-            Tool.trace(_act, pv.toString());
+            Tool.trace(_act, pv.getErrorMsg());
             checking = false;
-            checkingView.setText("Done.." + pv.toString());
+            checkingView.setText("Fail.." + pv.getErrorMsg());
         }
 
 
