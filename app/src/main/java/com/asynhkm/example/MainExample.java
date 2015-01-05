@@ -27,8 +27,6 @@ public class MainExample extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main_example);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

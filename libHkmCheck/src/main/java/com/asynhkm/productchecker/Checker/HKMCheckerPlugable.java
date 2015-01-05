@@ -42,7 +42,6 @@ public class HKMCheckerPlugable {
                     .setMac(mac_id)
                     .setRequestUrl(param.devCheck())
                     .execute();
-            //DialogCustomRedemptionSingle
         }
     }
 
