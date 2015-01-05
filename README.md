@@ -19,7 +19,7 @@ Example 1
  if (!checking) {
                 checking = true;
                 Tool.trace(_act, "checking license now!");
-                plugable = new HKMCheckerPlugable("54a36152417777b2152fe14b", getActivity());
+                plugable = new HKMCheckerPlugable("__YOUR_PRODUCT_KEY__", getActivity());
                 plugable.netStartCheck(this);
                 checkingView.setText("Checking..");
 }
